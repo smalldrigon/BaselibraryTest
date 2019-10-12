@@ -1,0 +1,74 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion rootProject.ext.android.androidCompileSdkVersion
+    buildToolsVersion rootProject.ext.android.androidBuildToolsVersion
+    defaultConfig {
+           minSdkVersion rootProject.ext.android.androidMinSdkVersion
+        targetSdkVersion rootProject.ext.android.androidTargetSdkVersion
+//        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        ndk{
+            abiFilters "armeabi"
+        }
+
+    }
+
+    buildTypes {
+        release {
+//            buildConfigField "boolean", "LOG_DEBUG", "false"
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            // 使用签名打包时不显示Log
+//            buildConfigField "boolean", "LOG_DEBUG", "true"
+            debuggable true
+        }
+    }
+
+    compileOptions {
+
+        sourceCompatibility JavaVersion.VERSION_1_8
+
+        targetCompatibility JavaVersion.VERSION_1_8
+
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    api rootProject.ext.supportLibs
+    api rootProject.ext.rxjavaLibs
+    api rootProject.ext.networkLibs
+    api rootProject.ext.upgradeLibs
+    api rootProject.ext.otherLibs
+    api rootProject.ext.arouterLibs
+    api rootProject.ext.multistatusviewLib
+    releaseApi rootProject.ext.leakcanaryLibs
+    debugApi rootProject.ext.leakcanaryLibs
+
+//    testImplementation 'junit:junit:4.12'
+//    androidTestImplementation 'androidx.test:runner:1.2.0'
+//    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+//    implementation "androidx.core:core-ktx:1.0.2"
+    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+//    kapt rootProject.ext.glideCompiler
+//    annotationProcessor rootProject.ext.glideCompiler
+
+
+}
+repositories {
+    mavenCentral()
+}
